@@ -136,6 +136,46 @@ st.markdown("""
         line-height: 1.65 !important;
     }
 
+    /* Ensure all text in main container has proper contrast */
+    .main .block-container,
+    .main .block-container p,
+    .main .block-container span,
+    .main .block-container div,
+    .main .block-container label {
+        color: var(--slate-dark);
+    }
+
+    .main .block-container h1,
+    .main .block-container h2,
+    .main .block-container h3,
+    .main .block-container h4 {
+        color: var(--navy-deep) !important;
+    }
+
+    /* Streamlit selectbox label in main area (filters in tabs) */
+    .main .stSelectbox label,
+    .main .stNumberInput label,
+    .main label {
+        color: var(--navy-deep) !important;
+        font-weight: 600 !important;
+        font-size: 0.875rem !important;
+    }
+
+    /* Selectbox values in main area */
+    .main .stSelectbox > div > div {
+        background: var(--paper) !important;
+        border: 1px solid var(--hairline) !important;
+        color: var(--navy-deep) !important;
+    }
+
+    .main .stSelectbox > div > div:hover {
+        border-color: var(--gold) !important;
+    }
+
+    .main input {
+        color: var(--navy-deep) !important;
+    }
+
     code, pre {
         font-family: 'JetBrains Mono', 'Courier New', monospace !important;
         font-size: 0.875rem !important;
@@ -203,7 +243,7 @@ st.markdown("""
         border-top: 1px solid var(--hairline);
         font-family: 'JetBrains Mono', monospace;
         font-size: 0.75rem;
-        color: var(--slate-light);
+        color: var(--slate);
         text-transform: uppercase;
         letter-spacing: 0.15em;
         flex-wrap: wrap;
@@ -242,33 +282,59 @@ st.markdown("""
 
     [data-testid="stSidebar"] label {
         font-family: 'JetBrains Mono', monospace !important;
-        font-size: 0.6875rem !important;
-        font-weight: 500 !important;
+        font-size: 0.7rem !important;
+        font-weight: 600 !important;
         text-transform: uppercase !important;
         letter-spacing: 0.15em !important;
-        color: var(--gold-light) !important;
+        color: #E8D5A8 !important;
         margin-bottom: 0.5rem !important;
+    }
+
+    [data-testid="stSidebar"] label * {
+        color: #E8D5A8 !important;
     }
 
     [data-testid="stSidebar"] .stSelectbox > div > div,
     [data-testid="stSidebar"] .stNumberInput > div > div,
     [data-testid="stSidebar"] input {
-        background: rgba(255,255,255,0.06) !important;
-        border: 1px solid rgba(201,169,97,0.25) !important;
-        border-radius: 2px !important;
-        color: var(--cream) !important;
+        background: rgba(255,255,255,0.1) !important;
+        border: 1px solid rgba(201,169,97,0.4) !important;
+        border-radius: 3px !important;
+        color: #FFFFFF !important;
         font-family: 'Inter', sans-serif !important;
-        font-weight: 400 !important;
+        font-weight: 500 !important;
+        font-size: 0.95rem !important;
         transition: all 0.2s ease !important;
+    }
+
+    /* Force all text inside sidebar inputs to be white */
+    [data-testid="stSidebar"] .stSelectbox div,
+    [data-testid="stSidebar"] .stSelectbox span,
+    [data-testid="stSidebar"] .stNumberInput div,
+    [data-testid="stSidebar"] .stNumberInput input,
+    [data-testid="stSidebar"] [data-baseweb="select"] *,
+    [data-testid="stSidebar"] [data-baseweb="input"] * {
+        color: #FFFFFF !important;
     }
 
     [data-testid="stSidebar"] .stSelectbox > div > div:hover,
     [data-testid="stSidebar"] input:hover {
         border-color: var(--gold) !important;
-        background: rgba(255,255,255,0.09) !important;
+        background: rgba(255,255,255,0.15) !important;
     }
 
-    /* Selectbox dropdown popover - light background, so dark text needed */
+    /* Slider value bubble */
+    [data-testid="stSidebar"] [data-baseweb="slider"] div[role="slider"] + div {
+        color: #FFFFFF !important;
+        background: var(--gold) !important;
+    }
+
+    /* Slider track and number labels */
+    [data-testid="stSidebar"] [data-baseweb="slider"] div {
+        color: #FFFFFF !important;
+    }
+
+    /* Selectbox dropdown popover - light background, dark text */
     [data-baseweb="popover"] [role="listbox"],
     [data-baseweb="popover"] ul {
         background: var(--paper) !important;
@@ -281,17 +347,23 @@ st.markdown("""
         background: var(--paper) !important;
         font-family: 'Inter', sans-serif !important;
         font-weight: 500 !important;
+        font-size: 0.95rem !important;
+        padding: 0.625rem 1rem !important;
     }
 
     [data-baseweb="popover"] [role="option"]:hover,
     [data-baseweb="popover"] li:hover {
-        background: rgba(201,169,97,0.1) !important;
+        background: rgba(201,169,97,0.15) !important;
         color: var(--navy-deep) !important;
     }
 
     [data-baseweb="popover"] [aria-selected="true"] {
         background: var(--navy-deep) !important;
-        color: var(--cream) !important;
+        color: #FFFFFF !important;
+    }
+
+    [data-baseweb="popover"] [aria-selected="true"] * {
+        color: #FFFFFF !important;
     }
 
     [data-testid="stSidebar"] .stSlider [data-baseweb="slider"] [role="slider"] {
@@ -349,52 +421,68 @@ st.markdown("""
         box-shadow: 0 8px 24px rgba(201,169,97,0.3) !important;
     }
 
-    /* ═══════════ TABS ═══════════ */
+    /* ═══════════ TABS - HIGH CONTRAST PILL DESIGN ═══════════ */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 0;
-        background: transparent;
-        border-bottom: 2px solid var(--hairline);
+        gap: 0.5rem;
+        background: var(--navy-deep);
+        padding: 0.5rem;
+        border-radius: 4px;
         margin-bottom: 2rem;
+        border: 1px solid var(--gold);
+        box-shadow: 0 4px 16px rgba(10,25,41,0.15);
     }
 
     .stTabs [data-baseweb="tab"] {
         font-family: 'Inter', sans-serif !important;
-        font-size: 1rem !important;
+        font-size: 0.95rem !important;
         font-weight: 600 !important;
-        color: var(--slate) !important;
+        color: rgba(250, 250, 247, 0.7) !important;
         background: transparent !important;
         border: none !important;
-        border-bottom: 3px solid transparent !important;
-        padding: 1rem 2rem !important;
+        border-radius: 3px !important;
+        padding: 0.875rem 2rem !important;
         margin: 0 !important;
-        margin-bottom: -2px !important;
-        transition: all 0.2s ease !important;
+        transition: all 0.25s ease !important;
+        letter-spacing: 0.02em;
     }
 
     .stTabs [data-baseweb="tab"] p {
-        color: var(--slate) !important;
+        color: rgba(250, 250, 247, 0.7) !important;
         font-weight: 600 !important;
-        font-size: 1rem !important;
+        font-size: 0.95rem !important;
+        margin: 0 !important;
     }
 
     .stTabs [data-baseweb="tab"]:hover {
-        color: var(--navy-deep) !important;
-        background: rgba(201,169,97,0.05) !important;
+        background: rgba(201, 169, 97, 0.15) !important;
+        color: #FFFFFF !important;
     }
 
     .stTabs [data-baseweb="tab"]:hover p {
-        color: var(--navy-deep) !important;
+        color: #FFFFFF !important;
     }
 
     .stTabs [aria-selected="true"] {
+        background: var(--gold) !important;
         color: var(--navy-deep) !important;
-        border-bottom-color: var(--gold-dark) !important;
         font-weight: 700 !important;
+        box-shadow: 0 2px 8px rgba(201, 169, 97, 0.4);
     }
 
     .stTabs [aria-selected="true"] p {
         color: var(--navy-deep) !important;
         font-weight: 700 !important;
+    }
+
+    /* Hide the underline bar that Streamlit adds */
+    .stTabs [data-baseweb="tab-highlight"] {
+        background: transparent !important;
+        display: none !important;
+    }
+
+    .stTabs [data-baseweb="tab-border"] {
+        background: transparent !important;
+        display: none !important;
     }
 
     /* ═══════════ METRICS ═══════════ */
@@ -518,10 +606,11 @@ st.markdown("""
         text-transform: uppercase;
         letter-spacing: 0.12em;
         font-size: 0.65rem;
-        color: var(--slate-light);
+        color: var(--slate);
         margin-bottom: 0.25rem;
         display: block;
         font-family: 'JetBrains Mono', monospace;
+        font-weight: 500;
     }
 
     .card-stat-value {
@@ -674,8 +763,8 @@ st.markdown("""
     .footer-tagline {
         font-family: 'JetBrains Mono', monospace;
         font-size: 0.7rem;
-        font-weight: 400;
-        color: var(--slate-light);
+        font-weight: 500;
+        color: var(--gold-dark);
         text-transform: uppercase;
         letter-spacing: 0.25em;
         margin-bottom: 1.5rem;
@@ -1310,7 +1399,7 @@ st.markdown("""
     <div class="footer-meta">
         <strong>Bachelor Thesis Project I12</strong> · Department of Mechanical Engineering · Indian Institute of Technology Delhi<br>
         Powered by XGBoost · Cutoff Prediction & Admission Probability Models<br>
-        <span style="color: var(--slate-light); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em;">
+        <span style="color: var(--slate); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em;">
             © 2026 · careerjankari.com
         </span>
     </div>
