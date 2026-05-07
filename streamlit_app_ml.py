@@ -189,32 +189,12 @@ st.markdown("""
         position: relative;
     }
 
-    .hero-eyebrow {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.7rem;
-        font-weight: 500;
-        letter-spacing: 0.25em;
-        color: var(--gold-dark);
-        text-transform: uppercase;
-        margin-bottom: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-    }
-
-    .hero-eyebrow::before {
-        content: '';
-        width: 32px;
-        height: 1px;
-        background: var(--gold);
-    }
-
     .hero-title {
         font-family: 'Playfair Display', Georgia, serif;
         font-size: 3.5rem;
-        font-weight: 700;
+        font-weight: 800;
         line-height: 1.05;
-        color: var(--navy-deep);
+        color: #050E1C;
         letter-spacing: -0.025em;
         margin-bottom: 0.75rem;
     }
@@ -222,7 +202,7 @@ st.markdown("""
     .hero-title .accent {
         font-style: italic;
         color: var(--gold-dark);
-        font-weight: 500;
+        font-weight: 600;
     }
 
     .hero-subtitle {
@@ -237,21 +217,40 @@ st.markdown("""
 
     .hero-meta {
         display: flex;
-        gap: 2.5rem;
+        gap: 0.75rem;
         margin-top: 1.75rem;
         padding-top: 1.5rem;
         border-top: 1px solid var(--hairline);
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 0.75rem;
-        color: var(--slate);
-        text-transform: uppercase;
-        letter-spacing: 0.15em;
         flex-wrap: wrap;
     }
 
-    .hero-meta strong {
-        color: var(--navy-deep);
-        font-weight: 600;
+    .hero-meta-pill {
+        background: var(--navy-deep);
+        border: 1px solid var(--gold);
+        border-radius: 4px;
+        padding: 0.625rem 1.25rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        color: rgba(250, 250, 247, 0.8);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.625rem;
+        box-shadow: 0 2px 8px rgba(10,25,41,0.12);
+        transition: all 0.2s ease;
+    }
+
+    .hero-meta-pill:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(10,25,41,0.18);
+    }
+
+    .hero-meta-pill strong {
+        color: var(--gold);
+        font-weight: 700;
+        font-size: 0.85rem;
+        letter-spacing: 0;
     }
 
     /* ═══════════ SIDEBAR ═══════════ */
@@ -512,11 +511,20 @@ st.markdown("""
 
     [data-testid="stMetricLabel"] {
         font-family: 'JetBrains Mono', monospace !important;
-        font-size: 0.6875rem !important;
-        font-weight: 500 !important;
+        font-size: 0.7rem !important;
+        font-weight: 700 !important;
         text-transform: uppercase !important;
-        letter-spacing: 0.18em !important;
-        color: var(--slate) !important;
+        letter-spacing: 0.15em !important;
+        color: var(--navy-deep) !important;
+        background: rgba(201,169,97,0.12);
+        padding: 0.25rem 0.625rem !important;
+        border-radius: 2px;
+        display: inline-block !important;
+        border-left: 2px solid var(--gold);
+    }
+
+    [data-testid="stMetricLabel"] * {
+        color: var(--navy-deep) !important;
     }
 
     [data-testid="stMetricValue"] {
@@ -697,21 +705,48 @@ st.markdown("""
     }
 
     .section-eyebrow {
+        display: inline-block;
+        background: var(--navy-deep);
+        border: 1px solid var(--gold);
+        color: var(--gold) !important;
         font-family: 'JetBrains Mono', monospace;
-        font-size: 0.6875rem;
-        font-weight: 500;
+        font-size: 0.7rem;
+        font-weight: 600;
         text-transform: uppercase;
-        letter-spacing: 0.2em;
-        color: var(--gold-dark);
-        margin-bottom: 0.5rem;
+        letter-spacing: 0.18em;
+        padding: 0.4rem 0.875rem;
+        border-radius: 3px;
+        margin-bottom: 0.75rem;
     }
 
     .section-title {
         font-family: 'Playfair Display', Georgia, serif;
         font-size: 1.875rem;
-        font-weight: 600;
-        color: var(--navy-deep);
+        font-weight: 700;
+        color: #050E1C;
         letter-spacing: -0.015em;
+    }
+
+    /* Hero eyebrow override - matching pill style */
+    .hero-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        background: var(--navy-deep);
+        border: 1px solid var(--gold);
+        color: var(--gold);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        padding: 0.5rem 1rem;
+        border-radius: 3px;
+        margin-bottom: 1.25rem;
+        gap: 0;
+    }
+
+    .hero-eyebrow::before {
+        content: none;
     }
 
     /* ═══════════ EXPANDER ═══════════ */
@@ -1020,10 +1055,10 @@ st.markdown("""
         and forecast 2025 closing ranks with rigorous accuracy.
     </div>
     <div class="hero-meta">
-        <span><strong>282,415</strong>&nbsp;&nbsp;Records</span>
-        <span><strong>130</strong>&nbsp;&nbsp;Institutes</span>
-        <span><strong>R²&nbsp;0.85</strong>&nbsp;&nbsp;Cutoff Model</span>
-        <span><strong>AUC&nbsp;0.975</strong>&nbsp;&nbsp;Admission Model</span>
+        <span class="hero-meta-pill"><strong>282,415</strong> Records</span>
+        <span class="hero-meta-pill"><strong>130</strong> Institutes</span>
+        <span class="hero-meta-pill"><strong>R²&nbsp;0.85</strong> Cutoff Model</span>
+        <span class="hero-meta-pill"><strong>AUC&nbsp;0.975</strong> Admission Model</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
