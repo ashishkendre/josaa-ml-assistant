@@ -77,35 +77,62 @@ st.markdown("""
 
 @st.cache_resource
 def load_models():
-    """Load trained ML models"""
-    try:
-        cutoff_model = joblib.load('models/cutoff_prediction_model.pkl')
-        admission_model = joblib.load('models/admission_probability_model.pkl')
-        return cutoff_model, admission_model
-    except Exception as e:
-        st.error(f"Error loading models: {e}")
-        return None, None
+    """Load trained ML models - tries multiple paths"""
+    paths_to_try = [
+        ('models/cutoff_prediction_model.pkl',   'models/admission_probability_model.pkl'),
+        ('./models/cutoff_prediction_model.pkl',  './models/admission_probability_model.pkl'),
+        ('cutoff_prediction_model.pkl',           'admission_probability_model.pkl'),
+        ('./cutoff_prediction_model.pkl',         './admission_probability_model.pkl'),
+    ]
+    for cutoff_path, admission_path in paths_to_try:
+        if Path(cutoff_path).exists() and Path(admission_path).exists():
+            try:
+                cutoff_model  = joblib.load(cutoff_path)
+                admission_model = joblib.load(admission_path)
+                return cutoff_model, admission_model
+            except Exception as e:
+                st.warning(f"Found files at {cutoff_path} but failed to load: {e}")
+    return None, None
 
 
 @st.cache_data
 def load_data():
-    """Load processed data"""
-    try:
-        df = pd.read_csv('processed_data/josaa_ml_ready.csv')
-        return df
-    except Exception as e:
-        st.error(f"Error loading data: {e}")
-        return None
+    """Load processed data - tries multiple paths and filenames"""
+    paths_to_try = [
+        'processed_data/josaa_ml_ready.csv',
+        'processed_data/josaa_ml_ready_small.csv',
+        './processed_data/josaa_ml_ready.csv',
+        './processed_data/josaa_ml_ready_small.csv',
+        'josaa_ml_ready.csv',
+        'josaa_ml_ready_small.csv',
+        './josaa_ml_ready.csv',
+        './josaa_ml_ready_small.csv',
+    ]
+    for path in paths_to_try:
+        if Path(path).exists():
+            try:
+                return pd.read_csv(path)
+            except:
+                continue
+    return None
 
 
 @st.cache_data
 def load_predictions_2025():
-    """Load 2025 predictions"""
-    try:
-        df = pd.read_csv('results/predictions_2025.csv')
-        return df
-    except:
-        return None
+    """Load 2025 predictions - tries multiple paths"""
+    paths_to_try = [
+        'results/predictions_2025.csv',
+        './results/predictions_2025.csv',
+        'predictions_2025.csv',
+        './predictions_2025.csv',
+    ]
+    for path in paths_to_try:
+        if Path(path).exists():
+            try:
+                return pd.read_csv(path)
+            except:
+                continue
+    return None
 
 
 def get_admission_probability(student_rank, college_data, admission_model_data):
@@ -224,17 +251,73 @@ st.title("🎓 JoSAA ML-Powered Choice Filling Assistant")
 st.markdown("### Smart recommendations powered by Machine Learning")
 
 # Load models and data
-with st.spinner("Loading ML models..."):
+with st.spinner("Loading ML models and data..."):
     cutoff_model_data, admission_model_data = load_models()
     df = load_data()
     predictions_df = load_predictions_2025()
 
-if cutoff_model_data is None or admission_model_data is None:
-    st.error("⚠️ Could not load ML models. Make sure to run training scripts first!")
-    st.stop()
+# ---- Handle missing files with clear instructions ----
+models_missing = cutoff_model_data is None or admission_model_data is None
+data_missing = df is None
 
-if df is None:
-    st.error("⚠️ Could not load data. Make sure preprocessing is complete!")
+if models_missing or data_missing:
+    st.error("⚠️ Some required files are missing from the deployment.")
+    
+    st.markdown("---")
+    st.markdown("## 🛠️ Setup Required")
+    st.markdown("The following files need to be uploaded to your GitHub repository:")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("### 📁 Required Folder Structure")
+        st.code("""
+your-repo/
+├── streamlit_app_ml.py       ✅
+├── requirements.txt          ✅
+├── models/
+│   ├── cutoff_prediction_model.pkl   ❌
+│   └── admission_probability_model.pkl ❌
+├── processed_data/
+│   └── josaa_ml_ready_small.csv    ❌
+└── results/
+    └── predictions_2025.csv        ❌
+        """)
+
+    with col2:
+        st.markdown("### 🚀 Steps to Fix")
+        st.markdown("""
+**Step 1:** On your computer, run:
+```
+python reduce_csv_size.py
+```
+This creates a smaller CSV (<50MB)
+
+**Step 2:** Upload to GitHub:
+- `models/` folder (both .pkl files)
+- `processed_data/josaa_ml_ready_small.csv`
+- `results/predictions_2025.csv`
+
+**Step 3:** Reboot the app on Streamlit Cloud
+
+**Step 4:** Refresh this page ✅
+        """)
+
+    st.markdown("---")
+    st.info("💡 **Quick Check:** Run this locally to verify your files exist:\n"
+            "```\ndir models\ndir processed_data\ndir results\n```")
+
+    st.markdown("### 📏 File Size Guide")
+    st.markdown("""
+| File | Typical Size | GitHub Limit |
+|------|-------------|-------------|
+| `cutoff_prediction_model.pkl` | 10-50 MB | 100 MB ✅ |
+| `admission_probability_model.pkl` | 10-50 MB | 100 MB ✅ |
+| `josaa_ml_ready_small.csv` | 10-30 MB | 100 MB ✅ |
+| `predictions_2025.csv` | 1-5 MB | 100 MB ✅ |
+
+If any file is **over 100 MB**, contact us for Git LFS setup.
+    """)
     st.stop()
 
 # Show model info
