@@ -47,12 +47,12 @@ st.markdown("""
         --cream: #FAFAF7;
         --paper: #FFFFFF;
         --slate: #475569;
-        --slate-light: #94A3B8;
+        --slate-light: #64748B;
         --slate-dark: #1E293B;
         --success: #2D6A4F;
         --warning: #B7791F;
         --danger: #9B2C2C;
-        --hairline: #E5E7EB;
+        --hairline: #D1D5DB;
     }
 
     /* ═══════════ GLOBAL ═══════════ */
@@ -268,6 +268,32 @@ st.markdown("""
         background: rgba(255,255,255,0.09) !important;
     }
 
+    /* Selectbox dropdown popover - light background, so dark text needed */
+    [data-baseweb="popover"] [role="listbox"],
+    [data-baseweb="popover"] ul {
+        background: var(--paper) !important;
+        border: 1px solid var(--hairline) !important;
+    }
+
+    [data-baseweb="popover"] [role="option"],
+    [data-baseweb="popover"] li {
+        color: var(--navy-deep) !important;
+        background: var(--paper) !important;
+        font-family: 'Inter', sans-serif !important;
+        font-weight: 500 !important;
+    }
+
+    [data-baseweb="popover"] [role="option"]:hover,
+    [data-baseweb="popover"] li:hover {
+        background: rgba(201,169,97,0.1) !important;
+        color: var(--navy-deep) !important;
+    }
+
+    [data-baseweb="popover"] [aria-selected="true"] {
+        background: var(--navy-deep) !important;
+        color: var(--cream) !important;
+    }
+
     [data-testid="stSidebar"] .stSlider [data-baseweb="slider"] [role="slider"] {
         background: var(--gold) !important;
         border: 2px solid var(--cream) !important;
@@ -327,31 +353,48 @@ st.markdown("""
     .stTabs [data-baseweb="tab-list"] {
         gap: 0;
         background: transparent;
-        border-bottom: 1px solid var(--hairline);
+        border-bottom: 2px solid var(--hairline);
         margin-bottom: 2rem;
     }
 
     .stTabs [data-baseweb="tab"] {
         font-family: 'Inter', sans-serif !important;
-        font-size: 0.9375rem !important;
-        font-weight: 500 !important;
-        color: var(--slate-light) !important;
+        font-size: 1rem !important;
+        font-weight: 600 !important;
+        color: var(--slate) !important;
         background: transparent !important;
         border: none !important;
-        border-bottom: 2px solid transparent !important;
+        border-bottom: 3px solid transparent !important;
         padding: 1rem 2rem !important;
         margin: 0 !important;
+        margin-bottom: -2px !important;
         transition: all 0.2s ease !important;
     }
 
+    .stTabs [data-baseweb="tab"] p {
+        color: var(--slate) !important;
+        font-weight: 600 !important;
+        font-size: 1rem !important;
+    }
+
     .stTabs [data-baseweb="tab"]:hover {
+        color: var(--navy-deep) !important;
+        background: rgba(201,169,97,0.05) !important;
+    }
+
+    .stTabs [data-baseweb="tab"]:hover p {
         color: var(--navy-deep) !important;
     }
 
     .stTabs [aria-selected="true"] {
         color: var(--navy-deep) !important;
-        border-bottom-color: var(--gold) !important;
-        font-weight: 600 !important;
+        border-bottom-color: var(--gold-dark) !important;
+        font-weight: 700 !important;
+    }
+
+    .stTabs [aria-selected="true"] p {
+        color: var(--navy-deep) !important;
+        font-weight: 700 !important;
     }
 
     /* ═══════════ METRICS ═══════════ */
