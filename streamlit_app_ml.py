@@ -1,5 +1,5 @@
 """
-JoSAA ML-Powered Choice Filling Assistant
+E-Counsellor — ML-Powered JoSAA Choice Filling Assistant
 Premium Edition — Sophisticated UI with refined typography and color palette
 """
 
@@ -18,7 +18,7 @@ warnings.filterwarnings('ignore')
 # PAGE CONFIG
 # ═══════════════════════════════════════════════════════════════════════════════
 st.set_page_config(
-    page_title="JoSAA Intelligence Platform",
+    page_title="E-Counsellor",
     page_icon="◆",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -1048,7 +1048,7 @@ PREMIUM_PLOTLY_LAYOUT = dict(
 st.markdown("""
 <div class="hero-container">
     <div class="hero-eyebrow">Bachelor Thesis Project · IIT Delhi · I12</div>
-    <div class="hero-title">JoSAA <span class="accent">Intelligence</span> Platform</div>
+    <div class="hero-title">E&#8209;<span class="accent">Counsellor</span></div>
     <div class="hero-subtitle">
         A machine-learning powered decision support system for engineering admissions counseling.
         Built on five years of historical data, two XGBoost models predict admission probability
@@ -1067,7 +1067,7 @@ st.markdown("""
 # LOAD DATA
 # ═══════════════════════════════════════════════════════════════════════════════
 
-with st.spinner("Initializing intelligence platform..."):
+with st.spinner("Initializing E-Counsellor..."):
     cutoff_model_data, admission_model_data = load_models()
     df = load_data()
     predictions_df = load_predictions_2025()
@@ -1429,7 +1429,7 @@ with tab3:
 
 st.markdown("""
 <div class="premium-footer">
-    <div class="footer-mark">JoSAA <span class="accent">Intelligence</span></div>
+    <div class="footer-mark">E&#8209;<span class="accent">Counsellor</span></div>
     <div class="footer-tagline">— Engineered for Aspirants —</div>
     <div class="footer-meta">
         <strong>Bachelor Thesis Project I12</strong> · Department of Mechanical Engineering · Indian Institute of Technology Delhi<br>
