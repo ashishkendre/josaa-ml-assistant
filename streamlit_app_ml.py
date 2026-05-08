@@ -1227,47 +1227,48 @@ with tab1:
                     if 'Predicted_Closing_Rank_2025' in rec and pd.notna(rec.get('Predicted_Closing_Rank_2025')):
                         change = rec.get('Change_Percent', 0)
                         direction = "↑" if change > 0 else "↓" if change < 0 else "→"
-                        pred_html = f"""
-                        <div class="card-prediction">
-                            <div class="card-prediction-label">2025 Forecast</div>
-                            <div class="card-prediction-value">
-                                Predicted closing rank: <strong>{int(rec['Predicted_Closing_Rank_2025']):,}</strong>
-                                &nbsp;&nbsp;{direction}&nbsp;{change:+.1f}% vs. 2024
-                            </div>
-                        </div>
-                        """
+                        pred_html = (
+                            '<div class="card-prediction">'
+                            '<div class="card-prediction-label">2025 Forecast</div>'
+                            '<div class="card-prediction-value">'
+                            f'Predicted closing rank: <strong>{int(rec["Predicted_Closing_Rank_2025"]):,}</strong>'
+                            f'&nbsp;&nbsp;{direction}&nbsp;{change:+.1f}% vs. 2024'
+                            '</div>'
+                            '</div>'
+                        )
 
-                    st.markdown(f"""
-                    <div class="premium-card">
-                        <div class="card-rank">No. {idx:02d}</div>
-                        <div class="card-institute">{rec['Institute']}</div>
-                        <div class="card-program">{rec['Academic Program Name']}</div>
-                        <div class="card-divider"></div>
-                        <div class="card-stats">
-                            <div>
-                                <span class="card-stat-label">2024 Closing Rank</span>
-                                <span class="card-stat-value">{int(rec['Closing Rank']):,}</span>
-                            </div>
-                            <div>
-                                <span class="card-stat-label">Round</span>
-                                <span class="card-stat-value">{int(rec['Round'])}</span>
-                            </div>
-                            <div>
-                                <span class="card-stat-label">Quota</span>
-                                <span class="card-stat-value">{rec['Quota']}</span>
-                            </div>
-                            <div>
-                                <span class="card-stat-label">Composite Score</span>
-                                <span class="card-stat-value">{rec['Composite_Score']:.1f}</span>
-                            </div>
-                        </div>
-                        <div class="card-badges">
-                            {nirf_pill}
-                            <span class="pill {prob_class}">{prob_label} · {prob*100:.1f}%</span>
-                        </div>
-                        {pred_html}
-                    </div>
-                    """, unsafe_allow_html=True)
+                    card_html = (
+                        '<div class="premium-card">'
+                        f'<div class="card-rank">No. {idx:02d}</div>'
+                        f'<div class="card-institute">{rec["Institute"]}</div>'
+                        f'<div class="card-program">{rec["Academic Program Name"]}</div>'
+                        '<div class="card-divider"></div>'
+                        '<div class="card-stats">'
+                        '<div>'
+                        '<span class="card-stat-label">2024 Closing Rank</span>'
+                        f'<span class="card-stat-value">{int(rec["Closing Rank"]):,}</span>'
+                        '</div>'
+                        '<div>'
+                        '<span class="card-stat-label">Round</span>'
+                        f'<span class="card-stat-value">{int(rec["Round"])}</span>'
+                        '</div>'
+                        '<div>'
+                        '<span class="card-stat-label">Quota</span>'
+                        f'<span class="card-stat-value">{rec["Quota"]}</span>'
+                        '</div>'
+                        '<div>'
+                        '<span class="card-stat-label">Composite Score</span>'
+                        f'<span class="card-stat-value">{rec["Composite_Score"]:.1f}</span>'
+                        '</div>'
+                        '</div>'
+                        '<div class="card-badges">'
+                        f'{nirf_pill}'
+                        f'<span class="pill {prob_class}">{prob_label} · {prob*100:.1f}%</span>'
+                        '</div>'
+                        f'{pred_html}'
+                        '</div>'
+                    )
+                    st.markdown(card_html, unsafe_allow_html=True)
     else:
         st.markdown("""
         <div class="empty-state">
